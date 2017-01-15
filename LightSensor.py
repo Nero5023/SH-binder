@@ -6,7 +6,7 @@ channel = 13
 
 class LightSensor(object, metaclass=Singleton):
     """docstring for ClassName"""
-    def __init__(self, arg):
+    def __init__(self):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(channel, GPIO.IN)
 
