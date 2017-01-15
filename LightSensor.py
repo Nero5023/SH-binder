@@ -18,5 +18,5 @@ class LightSensor(metaclass=Singleton):
         else:
             # this means the eniverniment is dark
             print("GPIO 27 is HIGH")
-            return 0
+            return 1
         
