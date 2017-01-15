@@ -1,5 +1,7 @@
 from twisted.internet import reactor
 from twisted.internet.protocol import Protocol, Factory
+from LightSensor import LightSensor
+import json
 
 PORT = 8000
 
@@ -15,8 +17,14 @@ class Echo(Protocol):
 
     def dataReceived(self, data):
         print(data)
+        data = data.decode(encoding='UTF-8')
+        jsonData = json.loads(data)
+        result = {'result': 'success'};
+        if jsonData['target'] == "LightSensor":
+            result['value'] = LightSensor().getCurrentLightStatus()
         # self.factory.send("%s" % (data))
-        replay = "%s" % (data.decode(encoding='UTF-8'))
+        # replay = "%s" % (data.decode(encoding='UTF-8')) 
+        replay = json.dumps(result)
         replay = bytes(replay, 'utf-8')
         self.transport.write(replay)
 
