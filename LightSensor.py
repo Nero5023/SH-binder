@@ -10,7 +10,7 @@ class LightSensor(object, metaclass=Singleton):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(channel, GPIO.IN)
 
-    def getCurrentLightStatus():
+    def getCurrentLightStatus(self):
         if GPIO.input(channel) == GPIO.LOW:
             # This means the enivernment is bright
             print("GPIO 27 Is LOW")
