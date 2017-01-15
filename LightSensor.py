@@ -4,7 +4,7 @@ from Singleton import Singleton
 channel = 13
 
 
-class LightSensor(object, metaclass=Singleton):
+class LightSensor(metaclass=Singleton):
     """docstring for ClassName"""
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
