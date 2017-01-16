@@ -64,6 +64,7 @@ ser.inWaiting()
 
 class AirQualitySensor(metaclass=Singleton):
     """AirQualitySensor"""
+    ser = ""
     def __init__(self):
         ser = serial.Serial(SERIAL_PORT, 9600)
 
