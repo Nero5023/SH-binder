@@ -4,7 +4,7 @@ from Singleton import Singleton
 SERIAL_PORT = "/dev/ttyS0"
 
 def combineTwoByte(frame, start):
-    return (ord(frame[start]) << 8) + ord(frame[start+1])
+    return (frame[start] << 8) + frame[start+1]
 
 def decode(frame):
     if len(frame) != 32:
@@ -12,14 +12,14 @@ def decode(frame):
         return None
     startSymbol0 = frame[0]
     startSymbol1 = frame[1]
-    if ord(startSymbol0) != 0x42 or ord(startSymbol1) != 0x4d:
+    if startSymbol0 != 0x42 or startSymbol1 != 0x4d:
         print("The frame's start symbol is not correct" + startSymbol0 + startSymbol1)
         return None
     frameLength = combineTwoByte(frame, 2)
     if frameLength != 28:
         print("The frame's length data error, the frameLength data is" + str(frameLength))
         return None
-    check_sum_computed = sum(map(ord,frame[0:30]))
+    check_sum_computed = sum(frame[0:30])
     # get low 16 bit
     check_sum_computed = check_sum_computed & 0xffff
 
