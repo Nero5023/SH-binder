@@ -73,5 +73,7 @@ if __name__ == '__main__':
         if sensor.ser.inWaiting() >= 32:
             data = sensor.ser.read(32)
             decode(data)
+            print("\n %s"%(sensor.ser.inWaiting()))
+            print("------------------------")
         time.sleep(0.1)
 
