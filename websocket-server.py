@@ -21,7 +21,7 @@ def sendAirQualityInfo(protocol):
         result = json.dumps(result)
         result = bytes(result, 'utf8')
         protocol.sendMessage(result, False)
-    reactor.callLater(3, sendAirQualityInfo, protocol) 
+    # reactor.callLater(3, sendAirQualityInfo, protocol) 
 
 
 class BinderServerProtocol(WebSocketServerProtocol):
