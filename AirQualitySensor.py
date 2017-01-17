@@ -13,7 +13,7 @@ def decode(frame):
     startSymbol0 = frame[0]
     startSymbol1 = frame[1]
     if startSymbol0 != 0x42 or startSymbol1 != 0x4d:
-        print("The frame's start symbol is not correct" + startSymbol0 + startSymbol1)
+        print("The frame's start symbol is not correct" + str(startSymbol0) + " " + str(startSymbol1))
         return None
     frameLength = combineTwoByte(frame, 2)
     if frameLength != 28:
