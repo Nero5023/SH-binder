@@ -6,6 +6,24 @@ from twisted.internet import reactor
 from AirQualitySensor import AirQualitySensor
 
 
+def sendAirQualityInfo(protocol):
+    sensor = AirQualitySensor()
+    result = {}
+    airQuality = sensor.getAirQuality()
+    if airQuality is None:
+        result = {"result": "fail", "reason": "There is no data"}
+        result = json.dumps(result)
+        result = bytes(replay, 'utf8')
+        protocol.sendMessage(result, False)
+    else:
+        result = {"result": "success"}
+        result["data"] = airQuality
+        result = json.dumps(result)
+        result = bytes(replay, 'utf8')
+        protocol.sendMessage(result, False)
+    reactor.callLater(1, sendAirQualityInfo, protocol) 
+
+
 class BinderServerProtocol(WebSocketServerProtocol):
     """docstring for BinderServerProtocol, this is the protocol"""
 
@@ -33,27 +51,12 @@ class BinderServerProtocol(WebSocketServerProtocol):
             replay = bytes(replay, 'utf8')
             self.sendMessage(replay, isBinary)
         elif jsonData['target'] == 'AirQualitySensor':
-            self.sendAirQualityInfo()
+            sendAirQualityInfo()
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
 
-    def sendAirQualityInfo():
-        sensor = AirQualitySensor()
-        result = {}
-        airQuality = sensor.getAirQuality()
-        if airQuality is None:
-            result = {"result": "fail", "reason": "There is no data"}
-            result = json.dumps(result)
-            result = bytes(replay, 'utf8')
-            self.sendMessage(result, False)
-        else:
-            result = {"result": "success"}
-            result["data"] = airQuality
-            result = json.dumps(result)
-            result = bytes(replay, 'utf8')
-            self.sendMessage(result, False)
-        reactor.callLater(1, self.sendAirQualityInfo) 
+
 
 if __name__ == '__main__':
     import sys
