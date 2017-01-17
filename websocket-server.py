@@ -51,7 +51,7 @@ class BinderServerProtocol(WebSocketServerProtocol):
             replay = bytes(replay, 'utf8')
             self.sendMessage(replay, isBinary)
         elif jsonData['target'] == 'AirQualitySensor':
-            sendAirQualityInfo()
+            sendAirQualityInfo(self)
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
