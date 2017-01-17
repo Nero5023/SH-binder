@@ -67,13 +67,29 @@ class AirQualitySensor(metaclass=Singleton):
     def __init__(self):
         self.ser = serial.Serial(SERIAL_PORT, 9600)
 
+    def getAirQuality():
+        bufferLength = self.ser.inWaiting()
+        if bufferLength >= 32:
+            effectiveFrame = bufferLength/32
+            readLength = effectiveFrame * 32
+            data = self.ser.read(readLength)
+            airQuality = decode(data[readLength-32:])
+            return airQuality
+        return None
+
+
 if __name__ == '__main__':
     sensor = AirQualitySensor()
+    # while True:
+    #     if sensor.ser.inWaiting() >= 32:
+    #         data = sensor.ser.read(32)
+    #         decode(data)
+    #         print("\n %s"%(sensor.ser.inWaiting()))
+    #         print("------------------------")
+    #     time.sleep(1)
     while True:
-        if sensor.ser.inWaiting() >= 32:
-            data = sensor.ser.read(32)
-            decode(data)
-            print("\n %s"%(sensor.ser.inWaiting()))
-            print("------------------------")
-        time.sleep(1)
-
+        sensor.getAirQuality()
+        print("\n %s"%(sensor.ser.inWaiting()))
+        print("------------------------")
+        sleep(1)
+    
