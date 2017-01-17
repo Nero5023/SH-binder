@@ -13,13 +13,13 @@ def sendAirQualityInfo(protocol):
     if airQuality is None:
         result = {"result": "fail", "reason": "There is no data"}
         result = json.dumps(result)
-        result = bytes(replay, 'utf8')
+        result = bytes(result, 'utf8')
         protocol.sendMessage(result, False)
     else:
         result = {"result": "success"}
         result["data"] = airQuality
         result = json.dumps(result)
-        result = bytes(replay, 'utf8')
+        result = bytes(result, 'utf8')
         protocol.sendMessage(result, False)
     reactor.callLater(1, sendAirQualityInfo, protocol) 
 
