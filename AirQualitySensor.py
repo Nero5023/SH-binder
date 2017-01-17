@@ -77,6 +77,8 @@ class AirQualitySensor(metaclass=Singleton):
             print("Read length")
             print(readLength)
             data = self.ser.read(readLength)
+            print("Start index")
+            print((effectiveFrame-1)*32)
             airQuality = decode(data[(effectiveFrame-1)*32:])
             return airQuality
         return None
