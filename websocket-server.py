@@ -2,6 +2,9 @@ from autobahn.twisted.websocket import WebSocketServerProtocol, \
     WebSocketServerFactory
 import json
 from LightSensor import LightSensor
+from twisted.internet import reactor
+from AirQualitySensor import AirQualitySensor
+
 
 class BinderServerProtocol(WebSocketServerProtocol):
     """docstring for BinderServerProtocol, this is the protocol"""
@@ -26,18 +29,37 @@ class BinderServerProtocol(WebSocketServerProtocol):
         result = {'result': 'success'};
         if jsonData['target'] == "LightSensor":
             result['value'] = LightSensor().getCurrentLightStatus()
-        replay = json.dumps(result)
-        replay = bytes(replay, 'utf8')
-        self.sendMessage(replay, isBinary)
-
+            replay = json.dumps(result)
+            replay = bytes(replay, 'utf8')
+            self.sendMessage(replay, isBinary)
+        elif jsonData['target'] == 'AirQualitySensor':
+            sendAirQualityInfo()
+            
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
+
+    def sendAirQualityInfo():
+        sensor = AirQualitySensor()
+        result = {}
+        airQuality = sensor.getAirQuality()
+        if airQuality is None:
+            result = {"result": "fail", "reason": "There is no data"}
+            result = json.dumps(result)
+            result = bytes(replay, 'utf8')
+            self.sendMessage(result, False)
+        else:
+            result = {"result": "success"}
+            result["data"] = airQuality
+            result = json.dumps(result)
+            result = bytes(replay, 'utf8')
+            self.sendMessage(result, False)
+        reactor.callLater(1, sendAirQualityInfo) 
 
 if __name__ == '__main__':
     import sys
 
     from twisted.python import log
-    from twisted.internet import reactor
+    
 
     log.startLogging(sys.stdout)
 

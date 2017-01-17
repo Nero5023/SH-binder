@@ -33,12 +33,12 @@ def decode(frame):
 
     pm1_0_CF = combineTwoByte(frame, 4)
     airQuality["pm1.0_cf"] = pm1_0_CF
-    print("PM1.0 (CF=1) %s ug/m3" %(pm1_0_CF))
+    print("PM1_0 (CF=1) %s ug/m3" %(pm1_0_CF))
 
 
     pm2_5_CF = combineTwoByte(frame, 6)
     print("PM2.5 (CF=1) %s ug/m3" %(pm2_5_CF))
-    airQuality["pm2.5_cf"] = pm2_5_CF
+    airQuality["pm2_5_cf"] = pm2_5_CF
 
     pm10_CF = combineTwoByte(frame, 8)
     airQuality["pm10_cf"] = pm10_CF
@@ -46,11 +46,11 @@ def decode(frame):
 
 
     pm1_0_atm = combineTwoByte(frame, 10)
-    airQuality["pm1.0_atm"] = pm1_0_atm
+    airQuality["pm1_0_atm"] = pm1_0_atm
     print("PM1.0 in the atmosphere %s ug/m3" %(pm1_0_atm))
 
     pm2_5_atm = combineTwoByte(frame, 12)
-    airQuality["pm2.5_atm"] = pm2_5_atm
+    airQuality["pm2_5_atm"] = pm2_5_atm
     print("PM2.5 in the atmosphere %s ug/m3" %(pm2_5_atm))
 
     pm10_atm = combineTwoByte(frame, 14)
