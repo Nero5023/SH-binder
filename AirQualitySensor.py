@@ -75,5 +75,5 @@ if __name__ == '__main__':
             decode(data)
             print("\n %s"%(sensor.ser.inWaiting()))
             print("------------------------")
-        time.sleep(0.1)
+        time.sleep(1)
 
