@@ -72,7 +72,7 @@ class AirQualitySensor(metaclass=Singleton):
         if bufferLength >= 32:
             effectiveFrame = bufferLength/32
             readLength = effectiveFrame * 32
-            print readLength
+            print(readLength)
             data = self.ser.read(readLength)
             airQuality = decode(data[readLength-32:])
             return airQuality
