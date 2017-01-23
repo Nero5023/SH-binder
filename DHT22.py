@@ -81,6 +81,20 @@ class DHT22(metaclass=Singleton):
         else:
             return None
 
+class DHT22Stable(metaclass=Singleton):
+    """docstring for DHT22Stable"""
+
+    def __init__(self, gpioPortNum):
+        import Adafruit_DHT as dht
+        self.gpioPortNum = gpioPortNum
+
+    def readData(self):
+        h,t = dht.read_retry(dht.DHT22, self.gpioPortNum)
+        result = {}
+        result["humidity"] = h
+        result["temperature"] = t
+        return result
+        
 
 if __name__ == '__main__':
     sensor = DHT22(15)
