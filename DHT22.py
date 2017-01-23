@@ -81,11 +81,12 @@ class DHT22(metaclass=Singleton):
         else:
             return None
 
+import Adafruit_DHT as dht
 class DHT22Stable(metaclass=Singleton):
     """docstring for DHT22Stable"""
 
     def __init__(self, gpioPortNum = 22):
-        import Adafruit_DHT as dht
+        
         self.gpioPortNum = gpioPortNum
 
     def readData(self):
