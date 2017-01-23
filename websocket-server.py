@@ -4,7 +4,8 @@ import json
 from LightSensor import LightSensor
 from twisted.internet import reactor
 from AirQualitySensor import AirQualitySensor
-
+from DHT22 import DHT22Stable as DHT22
+from time import sleep
 
 def sendAirQualityInfo(protocol):
     sensor = AirQualitySensor()
@@ -22,6 +23,25 @@ def sendAirQualityInfo(protocol):
         result = bytes(result, 'utf8')
         protocol.sendMessage(result, False)
     reactor.callLater(3, sendAirQualityInfo, protocol) 
+
+def sendTemHumInfo(protocol):
+    sensor = DHT22()
+    data = sensor.readData()
+    sleep(2.5)
+    # read twice to get the newest data
+    data = sensor.readData()
+    if data is None:
+        result = {"result": "fail", "reason": "There is no data"}
+        result = json.dump(result)
+        result = bytes(result, 'utf8')
+        protocol.sendMessage(result, False)
+    else:
+        result = {"result": "success"}
+        result["data"] = data
+        result = json.dumps(result)
+        result = bytes(result, 'utf8')
+        protocol.sendMessage(result, False)
+    reactor.callLater(10, sendTemHumInfo, protocol)
 
 
 class BinderServerProtocol(WebSocketServerProtocol):
@@ -52,6 +72,8 @@ class BinderServerProtocol(WebSocketServerProtocol):
             self.sendMessage(replay, isBinary)
         elif jsonData['target'] == 'AirQualitySensor':
             sendAirQualityInfo(self)
+        elif jsonData['target'] == 'TemHumSensor':
+            sendTemHumInfo(self)
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
