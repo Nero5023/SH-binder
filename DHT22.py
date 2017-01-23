@@ -63,7 +63,7 @@ class DHT22(metaclass=Singleton):
 
         data = [0]*5
         for i in range(3, DHT_PULSES*2, 2):
-            index = (i-3)/16
+            index = int((i-3)/16)
             data[index] <<= 1
             if pulseCounts[i] >= threshold:
                 data[index] |= 1
@@ -88,4 +88,4 @@ if __name__ == '__main__':
         data = sensor.readData()
         print(data)
         sleep(2)
-        
+
