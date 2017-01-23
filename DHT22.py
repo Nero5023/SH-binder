@@ -78,7 +78,7 @@ class DHT22(metaclass=Singleton):
             if data[2] & 0x80:
                 result["temperature"] *= -1
             return result
-        elif:
+        else:
             return None
 
 
