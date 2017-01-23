@@ -7,7 +7,7 @@ DHT_PULSES = 41
 
 class DHT22(metaclass=Singleton):
     """docstring for DHT22"""
-    def __init__(self, channel):
+    def __init__(self, channel = 15):
         self.channel = channel
         GPIO.setmode(GPIO.BOARD)
 
@@ -84,7 +84,7 @@ class DHT22(metaclass=Singleton):
 class DHT22Stable(metaclass=Singleton):
     """docstring for DHT22Stable"""
 
-    def __init__(self, gpioPortNum):
+    def __init__(self, gpioPortNum = 22):
         import Adafruit_DHT as dht
         self.gpioPortNum = gpioPortNum
 
@@ -97,7 +97,8 @@ class DHT22Stable(metaclass=Singleton):
         
 
 if __name__ == '__main__':
-    sensor = DHT22(15)
+    # sensor = DHT22(15)
+    sensor = DHT22Stable()
     while True:
         data = sensor.readData()
         print(data)
