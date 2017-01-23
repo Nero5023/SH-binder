@@ -87,5 +87,5 @@ if __name__ == '__main__':
     while True:
         data = sensor.readData()
         print(data)
-        sleep(2)
+        sleep(2.5)
 
