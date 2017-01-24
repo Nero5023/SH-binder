@@ -68,7 +68,7 @@ def sendHumInfo(protocol):
     # read twice to get the newest data
     data = sensor.readData()
     baseSendInfo(data, protocol)
-    reactor.callLater(10, sendTemHumInfo, protocol)
+    reactor.callLater(10, sendHumInfo, protocol)
 
 def sendTemInfo(protocol):
     # DHT22 is Singleton
@@ -77,7 +77,7 @@ def sendTemInfo(protocol):
     if data == {}:
         data = None
     baseSendInfo(data, protocol)
-    reactor.callLater(10, sendTemHumInfo, protocol)
+    reactor.callLater(10, sendTemInfo, protocol)
 
 class BinderServerProtocol(WebSocketServerProtocol):
     """docstring for BinderServerProtocol, this is the protocol"""
