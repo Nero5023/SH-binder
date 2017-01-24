@@ -68,7 +68,7 @@ class DHT22(metaclass=Singleton):
             if pulseCounts[i] >= threshold:
                 data[index] |= 1
 
-        print("Data: 0x%x 0x%x 0x%x 0x%x 0x%x\n" %(data[0], data[1], data[2], data[3], data[4]))
+        # print("Data: 0x%x 0x%x 0x%x 0x%x 0x%x\n" %(data[0], data[1], data[2], data[3], data[4]))
 
         result = {}
         checkSum = ((data[0] + data[1] + data[2] + data[3]) & 0xFF)
@@ -86,14 +86,15 @@ class DHT22Stable(metaclass=Singleton):
     """docstring for DHT22Stable"""
 
     def __init__(self, gpioPortNum = 22):
-        
         self.gpioPortNum = gpioPortNum
+        self.data = {}
 
     def readData(self):
         h,t = dht.read_retry(dht.DHT22, self.gpioPortNum)
         result = {}
         result["humidity"] = h
         result["temperature"] = t
+        self.data = result
         return result
         
 
