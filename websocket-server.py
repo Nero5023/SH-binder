@@ -50,7 +50,7 @@ def baseSendInfo(data, protocol):
     else:
         result = {"result": "success"}
         result["data"] = data
-    result = json.dump(result)
+    result = json.dumps(result)
     result = bytes(result, 'utf8')
     protocol.sendMessage(result, False)
 
