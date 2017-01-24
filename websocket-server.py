@@ -74,6 +74,8 @@ def sendTemInfo(protocol):
     # DHT22 is Singleton
     sensor = DHT22()
     data = sensor.data
+    if data == {}:
+        data = None
     baseSendInfo(data, protocol)
     reactor.callLater(10, sendTemHumInfo, protocol)
 
