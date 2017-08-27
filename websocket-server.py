@@ -146,6 +146,6 @@ if __name__ == '__main__':
     with open("/home/pi/Projects/SH-binder/config/mongodb.config", "r") as f:
         config = json.loads(f.read())
         dbConnection = pymongo.MongoClient(config["address"], config["port"])
-        reactor.callLater(10, sendAirQualityInfoToDB, 1, dbConnection.home_status.air_quality)
+        reactor.callLater(10, sendAirQualityInfoToDB, 5*60, dbConnection.home_status.air_quality)
 
     reactor.run()
