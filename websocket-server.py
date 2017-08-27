@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     reactor.listenTCP(9000, factory)
 
-    with open("config/mongodb.config", "r") as f:
+    with open("/home/pi/Projects/SH-binder/config/mongodb.config", "r") as f:
         config = json.loads(f.read())
         dbConnection = pymongo.MongoClient(config["address"], config["port"])
         reactor.callLater(10, sendAirQualityInfoToDB, 1, dbConnection.home_status.air_quality)
