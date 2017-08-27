@@ -6,6 +6,9 @@ from twisted.internet import reactor
 from AirQualitySensor import AirQualitySensor
 from DHT22 import DHT22Stable as DHT22
 from time import sleep
+import datetime
+import functools
+import pymongo
 
 # def sendAirQualityInfo(protocol):
 #     sensor = AirQualitySensor()
@@ -79,6 +82,16 @@ def sendTemInfo(protocol):
     baseSendInfo(data, protocol)
     reactor.callLater(10, sendTemInfo, protocol)
 
+def sendAirQualityInfoToDB(timeout, dbCollection):
+    sensor = AirQualitySensor()
+    airQuality = sensor.getAirQuality()
+    if airQuality is not None:
+        # utc time
+        airQuality["time"] = datetime.datetime.utcnow()
+        dbCollection.insert(airQuality)
+    cb = functools.partial(sendAirQualityInfoToDB, timeout=timeout, dbCollection=dbCollection)
+    reactor.callLater(timeout, cb)
+
 class BinderServerProtocol(WebSocketServerProtocol):
     """docstring for BinderServerProtocol, this is the protocol"""
 
@@ -129,4 +142,7 @@ if __name__ == '__main__':
     factory.protocol = BinderServerProtocol
 
     reactor.listenTCP(9000, factory)
+
+    dbConnection = pymongo.MongoClient(" ", 0)
+    sendAirQualityInfoToDB(1, dbConnection.home_status.air_quality)
     reactor.run()

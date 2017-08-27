@@ -57,6 +57,30 @@ def decode(frame):
     airQuality["pm10_atm"] = pm10_atm
     print("PM10 in the atmosphere %s ug/m3" %(pm10_atm))
 
+    grain_up_0_3 = combineTwoByte(frame, 16)
+    airQuality["grain_up_0_3"] = grain_up_0_3
+    print("Grain greater than 0.3 um count per 0.1L: %s" %(grain_up_0_3))
+
+    grain_up_0_5 = combineTwoByte(frame, 18)
+    airQuality["grain_up_0_5"] = grain_up_0_5
+    print("Grain greater than 0.5 um count per 0.1L: %s" % (grain_up_0_5))
+
+    grain_up_1_0 = combineTwoByte(frame, 20)
+    airQuality["grain_up_1_0"] = grain_up_1_0
+    print("Grain greater than 1.0 um count per 0.1L: %s" % (grain_up_1_0))
+
+    grain_up_2_5 = combineTwoByte(frame, 22)
+    airQuality["grain_up_2_5"] = grain_up_2_5
+    print("Grain greater than 2.5 um count per 0.1L: %s" % (grain_up_2_5))
+
+    grain_up_5_0 = combineTwoByte(frame, 24)
+    airQuality["grain_up_5_0"] = grain_up_5_0
+    print("Grain greater than 5.0 um count per 0.1L: %s" % (grain_up_5_0))
+
+    grain_up_10_0 = combineTwoByte(frame, 26)
+    airQuality["grain_up_10_0"] = grain_up_10_0
+    print("Grain greater than 10.0 um count per 0.1L: %s" % (grain_up_10_0))
+
     return airQuality
 
 ser = serial.Serial(SERIAL_PORT, 9600)
