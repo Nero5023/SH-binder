@@ -32,7 +32,7 @@ def decode(frame):
     airQuality = {};
 
     pm1_0_CF = combineTwoByte(frame, 4)
-    airQuality["pm1.0_cf"] = pm1_0_CF
+    airQuality["pm1_0_cf"] = pm1_0_CF
     print("PM1_0 (CF=1) %s ug/m3" %(pm1_0_CF))
 
 
